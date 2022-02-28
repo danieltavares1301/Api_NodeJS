@@ -43,32 +43,30 @@ class UserController {
   }
   //POST
   async store(request, response) {
-    const { name, email, state, password, birthDate, phones } = request.body;
+    const { name, email, password, profession, picture } = request.body;
 
     const user = await UserModel.create({
       name,
       email,
-      state,
       password: hashPassword(password),
-      birthDate,
-      phones,
+      profession,
+      picture,
     });
 
     response.send({ message: "user created", user });
   }
   async update(request, response) {
     const id = request.params.id;
-    const { name, email, state, password, birthDate, phones } = request.body;
+    const { name, email, password, profession, picture } = request.body;
 
     const user = await UserModel.findByIdAndUpdate(
       id,
       {
         name,
         email,
-        state,
         password,
-        birthDate,
-        phones,
+        profession,
+        picture,
       },
       {
         new: true,

@@ -15,12 +15,12 @@ router.get("/api/users", (request, response) => {
 */
 router.get("/api/users", userController.index);
 
-router.get("/api/users/:id", userController.getOne);
+router.get("/api/user/:id", userController.getOne);
 
-router.post("/api/users", userController.store);
+router.post("/api/user", userController.store);
 
-router.put("/api/users/:id", userController.update);
+router.put("/api/user/:id", userController.update);
 
-router.delete("/api/users/:id", userController.remove);
+router.delete("/api/user/:id", userController.remove);
 
 export default router;
