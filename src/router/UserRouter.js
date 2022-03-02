@@ -13,6 +13,8 @@ router.get("/api/users", (request, response) => {
   UserController.index(request, response);
 });
 */
+router.post("/api/login", userController.login);
+
 router.get("/api/users", userController.index);
 
 router.get("/api/users/:id", userController.getOne);

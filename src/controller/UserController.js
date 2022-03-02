@@ -1,4 +1,5 @@
 import UserModel from "../model/UserModel.js";
+import jsonwebtoken from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 
 const hashPassword = (password) => {
@@ -29,6 +30,31 @@ class UserController {
   async index(request, response) {
     const users = await UserModel.find();
     response.send(users);
+  }
+
+  async login(request, response) {
+    const { email, password } = request.body;
+
+    const user = await UserModel.findOne({ email }).lean(); //tira todas as funções do modelo do mongoose e traz apenas o dado
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
+    // compara as senhas em string e bcrypt
+    if (!bcryptjs.compareSync(password, user.password)) {
+      return response.status(404).json({ message: "Password Invalid" });
+    }
+
+    const token = jsonwebtoken.sign(
+      {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      "supersecrettoken"
+    );
+
+    return response.json({ token });
   }
 
   async remove(request, response) {
