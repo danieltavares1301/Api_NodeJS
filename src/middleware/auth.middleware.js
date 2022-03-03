@@ -22,7 +22,9 @@ export const AuthMiddleware = (request, response, next) => {
   const [, token] = authorization.split(" "); //apenas o token será retirado do authorization, pois está depois do espaço
 
   try {
-    jsonwebtoken.verify(token, JWT_SECRET);
+    const payload = jsonwebtoken.verify(token, JWT_SECRET);
+
+    request.loggedUser = payload;
   } catch (error) {
     return response.status(401).json({ message: "Token Invalid" });
   }
