@@ -7,6 +7,7 @@ dotenv.config();
 
 import UserRouter from "./router/UserRouter.js";
 import { AuthMiddleware } from "./middleware/auth.middleware.js";
+import ShortnerRouter from "./router/ShortnerRouter.js";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const PORT = process.env.PORT;
@@ -27,6 +28,7 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(ShortnerRouter);
 app.use(AuthMiddleware);
 app.use(UserRouter);
 
