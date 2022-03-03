@@ -3,9 +3,10 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import UserRouter from "./router/UserRouter.js";
-
 dotenv.config();
+
+import UserRouter from "./router/UserRouter.js";
+import { AuthMiddleware } from "./middleware/auth.middleware.js";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const PORT = process.env.PORT;
@@ -26,8 +27,11 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(AuthMiddleware);
 app.use(UserRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+// middleware é uma função que executa entre o começo e o fim de um requisição

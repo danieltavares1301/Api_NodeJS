@@ -1,6 +1,11 @@
 import UserModel from "../model/UserModel.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const hashPassword = (password) => {
   const salt = bcryptjs.genSaltSync(10);
@@ -51,7 +56,8 @@ class UserController {
         name: user.name,
         email: user.email,
       },
-      "supersecrettoken"
+      JWT_SECRET
+      //{ expiresIn: 120 } expira em 120 sec
     );
 
     return response.json({ token });
