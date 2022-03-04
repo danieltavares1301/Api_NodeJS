@@ -1,7 +1,7 @@
-import UserModel from "../model/UserModel.js";
-import jsonwebtoken from "jsonwebtoken";
-import bcryptjs from "bcryptjs";
-import dotenv from "dotenv";
+import UserModel from '../model/UserModel.js';
+import jsonwebtoken from 'jsonwebtoken';
+import bcryptjs from 'bcryptjs';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -26,9 +26,9 @@ class UserController {
       if (user) {
         return response.send(user);
       }
-      response.status(404).send({ message: "User not found" });
+      response.status(404).send({ message: 'User not found' });
     } catch {
-      response.status(400).send({ message: "An unexpected error happened" });
+      response.status(400).send({ message: 'An unexpected error happened' });
     }
   }
   //retorna todos
@@ -43,11 +43,11 @@ class UserController {
     const user = await UserModel.findOne({ email }).lean(); //tira todas as funções do modelo do mongoose e traz apenas o dado
 
     if (!user) {
-      return response.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: 'User not found' });
     }
     // compara as senhas em string e bcrypt
     if (!bcryptjs.compareSync(password, user.password)) {
-      return response.status(404).json({ message: "Password Invalid" });
+      return response.status(404).json({ message: 'Password Invalid' });
     }
 
     const token = jsonwebtoken.sign(
@@ -68,10 +68,10 @@ class UserController {
     const user = UserModel.findById(id);
     if (user) {
       await user.remove();
-      return response.send({ message: "user removed" });
+      return response.send({ message: 'user removed' });
     }
 
-    response.status(404).send({ message: "user not found!" });
+    response.status(404).send({ message: 'user not found!' });
   }
   //POST
   async store(request, response) {
@@ -85,7 +85,7 @@ class UserController {
       picture,
     });
 
-    response.send({ message: "user created", user });
+    response.send({ message: 'user created', user });
   }
   async update(request, response) {
     const id = request.params.id;

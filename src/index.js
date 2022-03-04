@@ -1,14 +1,14 @@
-import express from "express";
-import morgan from "morgan";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import express from 'express';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-import ShortnerController from "./controller/ShortnerController.js";
-import UserRouter from "./router/UserRouter.js";
-import { AuthMiddleware } from "./middleware/auth.middleware.js";
-import ShortnerRouter from "./router/ShortnerRouter.js";
+import ShortnerController from './controller/ShortnerController.js';
+import UserRouter from './router/UserRouter.js';
+import { AuthMiddleware } from './middleware/auth.middleware.js';
+import ShortnerRouter from './router/ShortnerRouter.js';
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const PORT = process.env.PORT;
@@ -20,21 +20,21 @@ const shortnerController = new ShortnerController();
 mongoose
   .connect(DATABASE_URL)
   .then(() => {
-    console.log("Database Connected...");
+    console.log('Database Connected...');
   })
   .catch((error) => {
-    console.error("Error to connected to database: " + error.message);
+    console.error('Error to connected to database: ' + error.message);
   });
 
 const app = express();
 
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
-app.get("/", (request, response) => {
-  response.json({ message: "shortner..." });
+app.get('/', (request, response) => {
+  response.json({ message: 'shortner...' });
 });
-app.get("/:hash", shortnerController.redirect);
+app.get('/:hash', shortnerController.redirect);
 app.use(AuthMiddleware);
 
 app.use(UserRouter);

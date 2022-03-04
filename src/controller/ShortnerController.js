@@ -1,6 +1,6 @@
-import ShortnerModel from "../model/ShortnerModel.js";
-import crypto from "crypto";
-import parser from "ua-parser-js";
+import ShortnerModel from '../model/ShortnerModel.js';
+import crypto from 'crypto';
+import parser from 'ua-parser-js';
 
 class ShortnerController {
   async index(request, response) {
@@ -18,12 +18,12 @@ class ShortnerController {
 
       // se não existir retorna uma mensagem
       if (!shortner) {
-        return response.status(404).json({ message: "Shortner not found" });
+        return response.status(404).json({ message: 'Shortner not found' });
       }
 
       response.json(shortner);
     } catch (error) {
-      response.status(400).json({ message: "An unexpected error happened" });
+      response.status(400).json({ message: 'An unexpected error happened' });
     }
   }
 
@@ -35,14 +35,14 @@ class ShortnerController {
 
       // se não existir retorna uma mensagem
       if (!shortner) {
-        return response.status(404).json({ message: "Shortner not found" });
+        return response.status(404).json({ message: 'Shortner not found' });
       }
 
       await shortner.remove();
 
-      response.json({ message: "shortner removed" });
+      response.json({ message: 'shortner removed' });
     } catch (error) {
-      response.status(400).json({ message: "An unexpected error happened" });
+      response.status(400).json({ message: 'An unexpected error happened' });
     }
   }
 
@@ -52,10 +52,10 @@ class ShortnerController {
 
     if (!link.trim()) {
       //trim para impedir se for vazio
-      return response.status(400).json({ message: "Link is missing" });
+      return response.status(400).json({ message: 'Link is missing' });
     }
 
-    const [hash] = crypto.randomUUID().split("-"); //pegando a primeira parte de um hash antes do "-"
+    const [hash] = crypto.randomUUID().split('-'); //pegando a primeira parte de um hash antes do "-"
 
     const shortner = await ShortnerModel.create({
       link,
@@ -63,11 +63,11 @@ class ShortnerController {
       ownerId: request.loggedUser.id,
     });
 
-    response.json({ message: "Shortner Created", shortner });
+    response.json({ message: 'Shortner Created', shortner });
   }
 
   async update(request, response) {
-    const { link = "" } = request.body;
+    const { link = '' } = request.body;
     const id = request.params.id;
 
     try {
@@ -78,12 +78,12 @@ class ShortnerController {
       );
 
       if (!shortner) {
-        return response.status(404).json({ message: "Shortner not found" });
+        return response.status(404).json({ message: 'Shortner not found' });
       }
 
       response.json(shortner);
     } catch (error) {
-      response.status(400).json({ message: "An unexpected error happened" });
+      response.status(400).json({ message: 'An unexpected error happened' });
     }
   }
 
@@ -93,7 +93,7 @@ class ShortnerController {
     const shortner = await ShortnerModel.findOne({ hash });
 
     if (!shortner) {
-      return response.redirect("/");
+      return response.redirect('/');
     }
 
     const metadata = {
