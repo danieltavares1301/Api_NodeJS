@@ -18,6 +18,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
+    "ua-parser-js": "^1.0.2",
+    "user-agents": "^1.0.944",
     "yarn": "^1.22.17"
   },
   "devDependencies": {

@@ -17,7 +17,7 @@ export const AuthMiddleware = (request, response, next) => {
   }
 
   if (!authorization) {
-    return response.status(401).json({ message: "Authoriazation not found" });
+    return response.status(401).json({ message: "Authoriaztion not found" });
   }
   const [, token] = authorization.split(" "); //apenas o token será retirado do authorization, pois está depois do espaço
 
@@ -29,5 +29,5 @@ export const AuthMiddleware = (request, response, next) => {
     return response.status(401).json({ message: "Token Invalid" });
   }
 
-  next();
+  return next();
 };

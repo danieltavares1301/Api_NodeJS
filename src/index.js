@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import ShortnerController from "./controller/ShortnerController.js";
 import UserRouter from "./router/UserRouter.js";
 import { AuthMiddleware } from "./middleware/auth.middleware.js";
 import ShortnerRouter from "./router/ShortnerRouter.js";
@@ -12,6 +13,7 @@ import ShortnerRouter from "./router/ShortnerRouter.js";
 const DATABASE_URL = process.env.DATABASE_URL;
 const PORT = process.env.PORT;
 
+const shortnerController = new ShortnerController();
 //teste
 
 //se existir o banco, ele conecta. Se não existir, ele cria
@@ -28,9 +30,15 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(ShortnerRouter);
+
+app.get("/", (request, response) => {
+  response.json({ message: "shortner..." });
+});
+app.get("/:hash", shortnerController.redirect);
 app.use(AuthMiddleware);
+
 app.use(UserRouter);
+app.use(ShortnerRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);

@@ -1,5 +1,6 @@
 import ShortnerModel from "../model/ShortnerModel.js";
 import crypto from "crypto";
+import parser from "ua-parser-js";
 
 class ShortnerController {
   async index(request, response) {
@@ -84,6 +85,29 @@ class ShortnerController {
     } catch (error) {
       response.status(400).json({ message: "An unexpected error happened" });
     }
+  }
+
+  async redirect(request, response) {
+    const { hash } = request.params;
+
+    const shortner = await ShortnerModel.findOne({ hash });
+
+    if (!shortner) {
+      return response.redirect("/");
+    }
+
+    const metadata = {
+      ip: request.ip,
+      userAgent: userAgentData.data,
+      appName: userAgentData.appName,
+    };
+
+    // atualizando quantidade de acessos
+    shortner.hits += 1;
+    shortner.metadata = [...shortner.metadata, metadata];
+    await shortner.save();
+
+    response.redirect(shortner.link);
   }
 }
 

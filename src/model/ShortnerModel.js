@@ -4,7 +4,7 @@ const ShortnerSchema = new mongoose.Schema(
   {
     link: { type: String, required: true }, //link original
     hash: { type: String, required: true, unique: true }, // unique para o hash ser unico
-    hits: { type: String, default: 0 }, //qtd de acessos
+    hits: { type: Number, default: 0 }, //qtd de acessos
     metadata: [
       mongoose.SchemaTypes.Mixed, //pode ser qualquer tipo
     ],
